@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('layouts.app2')
 
 
 @section('content')
@@ -59,43 +58,56 @@
 
                     <?php $no = 1; ?>
 
-                    @foreach($categories as $cat)
+                    @if(count($categories) > 0)
 
+                        @foreach($categories as $cat)
+
+
+                            <tr>
+
+                                <td>
+
+                                    {{ $no++ }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ $cat->name }}
+                                </td>
+
+                                <td>
+                                    <a href="/admin/category/{{$cat->id}}/edit" class="btn btn-info"> Edit</a>
+                                </td>
+
+                                <td>
+                                    <form action="/admin/category/{{$cat->id}}" method="post">
+                                        {{ csrf_field() }}
+
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+
+                                </td>
+
+
+                            </tr>
+
+
+
+
+                        @endforeach
+
+                    @else
 
                         <tr>
 
-                            <td>
-
-                                {{ $no++ }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $cat->name }}
-                            </td>
-
-                            <td>
-                                <a href="/admin/category/{{$cat->id}}/edit" class="btn btn-info"> Edit</a>
-                            </td>
-
-                            <td>
-                                <form action="/admin/category/{{$cat->id}}" method="post">
-                                    {{ csrf_field() }}
-
-                                    {{ method_field('DELETE') }}
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                </form>
-
-                            </td>
-
-
+                            <td colspan="5" class="text-center">There is No Categories Add</td>
                         </tr>
 
+                    @endif
 
 
-
-                    @endforeach
 
                 </tbody>
 

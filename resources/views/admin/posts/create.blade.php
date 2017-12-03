@@ -1,21 +1,11 @@
-@extends ('layouts.app')
+@extends ('layouts.app2')
 
 
 @section('content')
 
 
-    @if(count($errors) > 0)
+    @include('admin.includes.errors')
 
-        <ul class="list-group">
-            @foreach($errors->all() as $error)
-
-                <li class="list-group-item text-danger"> {{ $error }}</li>
-
-            @endforeach
-        </ul>
-
-
-    @endif
     <div class="panel panel-default">
         <div class="panel-heading">Create New Post</div>
 
@@ -32,6 +22,30 @@
                 <div class="form-group">
                     <label for="featured">Featured Image</label>
                     <input type="file" name="featured" class="form-control">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="featured">Select a Category</label>
+                    <select name="category_id" id="category" class="form-control">
+
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}"> {{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check-label">Select Tag:</label>
+
+                    @foreach($tags as $tag)
+
+                        <div class="checkbox">
+                            <label><input class="form-check-input" name="tags[]" type="checkbox" value="{{$tag->id}}"> {{$tag->tag}}</label>
+                        </div>
+                    @endforeach
+
+
                 </div>
 
                 <div class="form-group">

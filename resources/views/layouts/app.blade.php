@@ -93,6 +93,20 @@
                                 <a href="/admin/category"> Categories </a>
                             </li>
 
+
+                            <li class="list-group-item">
+                                <a href="/admin/tag"> Tags </a>
+                            </li>
+
+
+                            <li class="list-group-item">
+                                <a href="/admin/post"> All Posts </a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <a href="/admin/post/trash"> All Trashed Posts </a>
+                            </li>
+
                             <li class="list-group-item">
                                 <a href="/admin/post/create"> Create new Post </a>
                             </li>
@@ -116,6 +130,10 @@
     <script>
         @if(Session::has('success'))
             toastr.success('{{ Session::get('success') }}')
+        @endif
+
+        @if(Session::has('info'))
+        toastr.info('{{ Session::get('info') }}')
         @endif
     </script>
 </body>
