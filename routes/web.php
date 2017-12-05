@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test',function(){
-   return view('layouts.app2');
+   return \App\User::find(1)->profile;
 });
 
 Auth::routes();
@@ -31,8 +31,20 @@ Route::prefix('/admin')->middleware('auth')->group(function(){
     Route::get('/post/trash' ,'PostsController@trash')->name('posts.trash');
     Route::get('/post/trash/{id}/delete' ,'PostsController@Forcedelete');
     Route::get('/post/trash/{id}/restore' ,'PostsController@restore');
+    Route::post('/post/upload_image', 'PostsController@uploadImage');
     Route::resource('post' , 'PostsController');
     Route::resource('tag','TagsController');
+
+    Route::get('/user/{id}/makeadmin' , 'UserController@makeadmin');
+    Route::get('/user/{id}/deleteadmin' , 'UserController@deleteadmin');
+    Route::resource('user' , 'UserController');
+
+    Route::resource('profile','ProfileController');
+
+    Route::get('/setting' , 'SettingController@index');
+    Route::post('/setting/update' , 'SettingController@update');
+
+
 
 
 });

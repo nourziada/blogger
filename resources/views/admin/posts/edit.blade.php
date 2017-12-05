@@ -6,6 +6,7 @@
 
     @include('admin.includes.errors')
 
+    {!! Form::hidden('url',url('/admin/post/upload_image'), array('class'=>'url') ) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">Update Post {{ $post->title }}</div>
@@ -16,6 +17,9 @@
                 {{ csrf_field() }}
 
                 {{ method_field('PATCH') }}
+
+
+
 
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -90,4 +94,33 @@
         </div>
     </div>
 
+@stop
+
+@section('styles')
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+
+
+@stop
+
+
+@section('scripts')
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#content').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['picture']],
+                ]
+            });
+        });
+    </script>
 @stop

@@ -26,14 +26,19 @@ class PostsController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
         if(count($categories) == 0) {
             Session::flash('info', 'you must have some Categories');
 
             return redirect()->route('category.index');
+        }elseif ( count($tags) == 0){
+            Session::flash('info', 'you must have some Tags');
+
+            return redirect()->route('tag.index');
         }
 
-        $tags = Tag::all();
+
         return view('admin.posts.create' ,compact('categories','tags'));
     }
 
@@ -116,6 +121,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $post = Post::withTrashed()->find($id);
 
 
@@ -136,8 +142,31 @@ class PostsController extends Controller
 
 
 
+
+        /*  Code of Content to get the summernot  */
+
+        $detail=$request->input('content');
+        $dom = new \DomDocument();
+        $dom->loadHtml($detail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $k => $img){
+            $data = $img->getAttribute('src');
+            list($type,$data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+            $image_name= "/uploads/posts/" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $data);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $detail = $dom->saveHTML();
+
+        /* End Code of Upload Image  */
+
+
         $post->title = $request->title;
-        $post->content = $request->content;
+        $post->content = $detail;
         $post->category_id = $request->category_id;
         $post->slug = str_slug($request->title);
         $post->save();
@@ -153,6 +182,8 @@ class PostsController extends Controller
         }
 
         return redirect()->route('posts.trash');
+
+
 
     }
 
@@ -196,5 +227,23 @@ class PostsController extends Controller
         Session::flash('success', 'Your post Restore Successfuly');
 
         return redirect()->back();
+    }
+
+
+    public function uploadImage(Request $request)
+    {
+        // A list of permitted file extensions
+        if(empty($_FILES['file']))
+        {
+            exit();
+        }
+        $errorImgFile = public_path()."/uploads/img/img_upload_error.jpg";
+        $destinationFilePath = public_path().'/uploads/posts/'.$_FILES['file']['name'];
+        if(!move_uploaded_file($_FILES['file']['tmp_name'], $destinationFilePath)){
+            echo $errorImgFile;
+        }
+        else{
+            echo url('/').'/public/uploads/posts/'.$_FILES['file']['name'];
+        }
     }
 }
