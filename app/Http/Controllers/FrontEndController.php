@@ -50,9 +50,22 @@ class FrontEndController extends Controller
 
         $category = Category::find($id);
         $title = $category->name;
+        $tags = Tag::all();
 
         $posts = Post::where('category_id' , $id)->get();
 
-        return view('category' ,compact('settings' , 'categories' , 'title' ,'category' ,'posts'));
+
+        return view('category' ,compact('settings' , 'categories' , 'title' ,'category' ,'posts' ,'tags'));
+    }
+
+
+    public function singleTag($id) {
+        $settings = Setting::all()->first();
+        $categories = Category::take(5)->get();
+        $tag = Tag::find($id);
+        $title = $tag->tag;
+        $tags = Tag::all();
+
+        return view('tag',compact('settings' , 'categories' ,'title' ,'tag' ,'tags'));
     }
 }

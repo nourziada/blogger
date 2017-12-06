@@ -72,7 +72,7 @@
 
                                             @foreach($post->tags as $tag)
 
-                                                <a href="#" class="w-tags-item">{{ $tag->tag }}</a>
+                                                <a href="/tag/{{$tag->id}}" class="w-tags-item">{{ $tag->tag }}</a>
 
                                             @endforeach
 
@@ -209,7 +209,7 @@
 
                                     @foreach($tags as $tag)
 
-                                        <a href="#" class="w-tags-item">{{$tag->tag}}</a>
+                                        <a href="/tag/{{$tag->id}}" class="w-tags-item">{{$tag->tag}}</a>
 
                                     @endforeach
                                 </div>
