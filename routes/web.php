@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test',function(){
-   return \App\User::find(1)->profile;
-});
+Route::get('/','FrontEndController@index' );
+Route::get('/post/{slug}','FrontEndController@singlePage' )->name('single.post');
+Route::get('/category/{id}' , 'FrontEndController@singleCategory');
 
 Auth::routes();
 

@@ -7,6 +7,7 @@ use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 
 class PostsController extends Controller
 {
@@ -74,6 +75,7 @@ class PostsController extends Controller
         $post->content = $request->content;
         $post->category_id = $request->category_id;
         $post->slug = str_slug($request->title);
+        $post->user_id = Auth::user()->id;
 
         $post->save();
 
