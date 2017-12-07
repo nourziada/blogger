@@ -7,6 +7,7 @@ use App\Post;
 use App\Setting;
 use App\Tag;
 use Illuminate\Http\Request;
+use Session;
 
 class FrontEndController extends Controller
 {
@@ -67,5 +68,24 @@ class FrontEndController extends Controller
         $tags = Tag::all();
 
         return view('tag',compact('settings' , 'categories' ,'title' ,'tag' ,'tags'));
+    }
+
+    public function Search(Request $request) {
+
+        $search = $request->search;
+        $posts = Post::where('title' , 'like' , '%' .  $search . '%')->get();
+
+        $settings = Setting::all()->first();
+        $categories = Category::take(5)->get();
+        $title = $search;
+        $tags = Tag::all();
+
+
+        return view('search' ,compact('title' , 'posts' , 'tags' , 'settings', 'categories'));
+    }
+
+    public function Subscripe(){
+        Session::flash('success' , 'You Have Subscripe Successfuly');
+        return redirect()->back();
     }
 }

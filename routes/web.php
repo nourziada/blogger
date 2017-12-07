@@ -15,6 +15,8 @@ Route::get('/','FrontEndController@index' );
 Route::get('/post/{slug}','FrontEndController@singlePage' )->name('single.post');
 Route::get('/category/{id}' , 'FrontEndController@singleCategory');
 Route::get('/tag/{id}' , 'FrontEndController@singleTag');
+Route::get('/result' , 'FrontEndController@Search');
+Route::post('/subscripe' , 'FrontEndController@Subscripe');
 
 Auth::routes();
 
